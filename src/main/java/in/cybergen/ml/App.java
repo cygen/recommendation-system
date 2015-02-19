@@ -1,7 +1,7 @@
 package in.cybergen.ml;
 
 import in.cybergen.ml.data.DataSource;
-import in.cybergen.ml.data.cqengineCache.CqengineDataSource;
+import in.cybergen.ml.data.cqengineCache.CqEngineDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +17,7 @@ public class App
         LOG.info("Starting Application");
         String filePath="/home/vishnu/projects/ml-sample/ml-sample/src/main/resources/dataSource/arduino_Posts.xml";
 
-        DataSource dataSource = new CqengineDataSource();
+        DataSource dataSource = new CqEngineDataSource();
         LoadFile.processFile(filePath,dataSource);
 
     }

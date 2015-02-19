@@ -9,13 +9,28 @@ public class Post {
     List<String> tags ;
     int viewCount;
     String body;
-    String Title;
-    
+    String title;
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
     private Post(PostBuilder postBuilder) {
         this.tags = postBuilder.tags;
         this.viewCount = postBuilder.viewCount;
         this.body = postBuilder.body;
-        Title = postBuilder.title;
+        title = postBuilder.title;
     }
 
     public static class PostBuilder{
