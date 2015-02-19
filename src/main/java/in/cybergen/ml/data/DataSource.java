@@ -1,13 +1,12 @@
 package in.cybergen.ml.data;
 
 import in.cybergen.ml.models.Post;
-
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by vishnu on 19/2/15.
  */
 public interface DataSource {
     public void loadEntry(Post post);
-    public List<Post> getPostsForTag(String tag);
+    public Set<Post> getPostsForTag(String tag);
 }

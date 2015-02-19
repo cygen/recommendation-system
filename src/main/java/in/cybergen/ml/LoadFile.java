@@ -3,7 +3,9 @@ package in.cybergen.ml;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import in.cybergen.ml.data.DataSource;
 import in.cybergen.ml.models.Post;
@@ -29,16 +31,29 @@ public class LoadFile {
             Element rootNode = document.getRootElement();
             List<Element> posts = rootNode.getChildren("row");
             LOG.info("total number of posts in file "+xmlFile.getName()+" is " + posts.size());
-            for(int i=posts.size()-10;i<posts.size();i++){ Element post = posts.get(i);
-                //for (Element post : posts) {
+//            for(int i=posts.size()-10;i<posts.size();i++){ Element post = posts.get(i);
+            for (Element post : posts) {
                 try {
                     Post.PostBuilder postBuilder = new Post.PostBuilder();
-                    postBuilder.setBody(post.getAttributeValue("Body"));
-                    postBuilder.setTitle(post.getAttributeValue("Title"));
-                    postBuilder.setViewCount(Integer.parseInt(post.getAttributeValue("ViewCount")));
+                    postBuilder.setAcceptedAnswerId(Long.parseLong(post.getAttributeValue("AcceptedAnswerId")!=null?post.getAttributeValue("AcceptedAnswerId"):"0"));
+                    postBuilder.setAnswerCount(Long.parseLong(post.getAttributeValue("AnswerCount")!=null?post.getAttributeValue("AnswerCount"):"0"));
+                    postBuilder.setCommentCount(Long.parseLong(post.getAttributeValue("CommentCount")!=null?post.getAttributeValue("CommentCount"):"0"));
+                    postBuilder.setFavoriteCount(Long.parseLong(post.getAttributeValue("FavoriteCount")!=null?post.getAttributeValue("FavoriteCount"):"0"));
+                    postBuilder.setId(Long.parseLong(post.getAttributeValue("Id")!=null?post.getAttributeValue("Id"):"0"));
+                    postBuilder.setLastEditorUserId(Long.parseLong(post.getAttributeValue("LastEditorUserId")!=null?post.getAttributeValue("LastEditorUserId"):"0"));
+                    postBuilder.setOwnerUserId(Long.parseLong(post.getAttributeValue("OwnerUserId")!=null?post.getAttributeValue("OwnerUserId"):"0"));
+                    postBuilder.setPostTypeId(Long.parseLong(post.getAttributeValue("PostTypeId")!=null?post.getAttributeValue("PostTypeId"):"0"));
+                    postBuilder.setScore(Long.parseLong(post.getAttributeValue("Score")!=null?post.getAttributeValue("Score"):"0"));
+                    postBuilder.setViewCount(Long.parseLong(post.getAttributeValue("ViewCount")!=null?post.getAttributeValue("ViewCount"):"0"));
+
+                    postBuilder.setBody(post.getAttributeValue("Body")!=null?post.getAttributeValue("Body"):"");
+                    postBuilder.setCreationDate(post.getAttributeValue("CreationDate") != null ? post.getAttributeValue("CreationDate") : "");
+                    postBuilder.setLastActivityDate(post.getAttributeValue("LastActivityDate") != null ? post.getAttributeValue("LastActivityDate") : "");
+                    postBuilder.setLastEditDate(post.getAttributeValue("LastEditDate")!=null?post.getAttributeValue("LastEditDate"):"");
+                    postBuilder.setTitle(post.getAttributeValue("Title")!=null?post.getAttributeValue("Title"):"");
 
                     String tagsString = post.getAttributeValue("Tags");
-                    List<String> tags = new ArrayList<String>();
+                    HashSet<String> tags = new HashSet<String>();
                     if(tagsString!=null) {
                         tagsString = tagsString.replaceAll("<", "");
                         for (String tag : tagsString.split(">")) {
@@ -51,7 +66,7 @@ public class LoadFile {
 
                     dataSource.loadEntry(postBuilder.createPost());
                 }catch (Exception e){
-                    LOG.debug(e.getMessage());                    
+                    LOG.info("Exception Caught "+e.toString());
                 }
             }
 

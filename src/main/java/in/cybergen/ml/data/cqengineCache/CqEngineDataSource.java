@@ -5,8 +5,7 @@ import in.cybergen.ml.data.DataSource;
 import in.cybergen.ml.models.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by vishnu on 19/2/15.
@@ -16,12 +15,12 @@ public class CqEngineDataSource implements DataSource {
 
     @Override
     public void loadEntry(Post post) {
-        
+        CqMaster.addPost(post);
     }
 
     @Override
-    public List<Post> getPostsForTag(String tag) {
-        
-        return null;
+    public Set<Post> getPostsForTag(String tag) {
+
+        return CqMaster.getPostsWithTag(tag);
     }
 }
