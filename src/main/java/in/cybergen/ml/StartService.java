@@ -26,7 +26,7 @@ public class StartService
         LOG.info("Starting Application");
         String filePath="/home/vishnu/projects/ml-sample/ml-sample/src/main/resources/dataSource/arduino.stackexchange.com/Posts.xml";
 
-        LoadFile.processFile(filePath,dataSource);
+        LoadFile.processPostsFile(filePath, dataSource);
 
         LOG.info(" posts for arduino "+dataSource.getPostsForTag("arduino").size());
 

@@ -2,11 +2,8 @@ package in.cybergen.ml;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import in.cybergen.ml.data.DataSource;
 import in.cybergen.ml.models.Post;
 import org.jdom2.Document;
@@ -22,7 +19,7 @@ import org.slf4j.LoggerFactory;
 public class LoadFile {
     private static final Logger LOG = LoggerFactory.getLogger(LoadFile.class);
 
-    public static void processFile(String filePath,DataSource dataSource){
+    public static void processPostsFile(String filePath, DataSource dataSource){
         SAXBuilder saxBuilder = new SAXBuilder();
         File xmlFile = new File(filePath);
         try {
@@ -31,7 +28,6 @@ public class LoadFile {
             Element rootNode = document.getRootElement();
             List<Element> posts = rootNode.getChildren("row");
             LOG.info("total number of posts in file "+xmlFile.getName()+" is " + posts.size());
-//            for(int i=posts.size()-10;i<posts.size();i++){ Element post = posts.get(i);
             for (Element post : posts) {
                 try {
                     Post.PostBuilder postBuilder = new Post.PostBuilder();

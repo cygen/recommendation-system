@@ -2,7 +2,6 @@ package in.cybergen.ml.data.cqengineCache;
 
 import com.googlecode.cqengine.attribute.Attribute;
 import com.googlecode.cqengine.attribute.SimpleAttribute;
-import com.sun.deploy.util.StringUtils;
 import in.cybergen.ml.models.Post;
 
 /**
@@ -75,7 +74,7 @@ public class PostData {
     public static final Attribute<Post ,String> TAGS = new SimpleAttribute<Post ,String>(){
         @Override
         public String getValue(Post post){
-            return StringUtils.join(post.getTags(),",");
+            return post.getTags().toString();
         }
     };
     public static final Attribute<Post ,String> BODY = new SimpleAttribute<Post ,String>(){
