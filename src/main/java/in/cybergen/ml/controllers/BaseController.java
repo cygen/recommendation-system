@@ -2,6 +2,7 @@ package in.cybergen.ml.controllers;
 
 import com.google.gson.JsonArray;
 import in.cybergen.ml.data.DataSource;
+import in.cybergen.ml.data.cqengineCache.CqMaster;
 import in.cybergen.ml.models.Post;
 import org.restexpress.Request;
 import org.restexpress.Response;
@@ -26,6 +27,10 @@ public class BaseController {
             postsJson.add(post.toJsonObject());
         }
         response.setBody(postsJson);
+        response.setContentType("application/json");
+    } 
+    public void getAllTags(Request request, Response response){
+        response.setBody(CqMaster.getTagList());
         response.setContentType("application/json");
     }
     

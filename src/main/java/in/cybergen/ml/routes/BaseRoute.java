@@ -12,5 +12,6 @@ public class BaseRoute {
 
     public static void define(RestExpress server, DataSource dataSource) {
         server.uri("/get/posts/for/tag/{tag}", new BaseController(dataSource)).action("getPostsForTag", HttpMethod.GET).noSerialization();
+        server.uri("/get/tags/all", new BaseController(dataSource)).action("getAllTags", HttpMethod.GET).noSerialization();
     }
 }

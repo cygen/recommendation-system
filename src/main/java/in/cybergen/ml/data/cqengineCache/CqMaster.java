@@ -2,6 +2,7 @@ package in.cybergen.ml.data.cqengineCache;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.google.gson.JsonObject;
 import com.googlecode.cqengine.CQEngine;
 import com.googlecode.cqengine.IndexedCollection;
 import com.googlecode.cqengine.index.hash.HashIndex;
@@ -33,17 +34,37 @@ public class CqMaster {
         indexedPosts.addIndex(HashIndex.onAttribute(PostData.TAGS));
     }
     
+    public static JsonObject getTagList(){
+        JsonObject jsonObject = new JsonObject();
+        for(String tag : weightedGraph.columnKeySet()){
+            Long totalCount = 0l;
+            for(AtomicLong counter : weightedGraph.row(tag).values()){
+               totalCount = totalCount+counter.get();
+             }
+            jsonObject.addProperty(tag,totalCount);
+        }
+        return jsonObject;
+    }
+    
     public static void addPost(Post post){
         indexedPosts.add(post);
         ArrayList<String> tags = new ArrayList<String>(post.getTags());
         if(tags.size()>1){
             for(String outerTag :tags){
                 for(String innerTag :tags){
-                    weightedGraph.get(outerTag,innerTag).incrementAndGet();
+                    if(weightedGraph.contains(outerTag, innerTag)){
+                        weightedGraph.get(tags.get(0), tags.get(0)).incrementAndGet();                                    
+                    }else{
+                        weightedGraph.put(outerTag, innerTag,new AtomicLong(1L));
+                    }
                 }                    
             }
         }else if(tags.size()==1){
-            weightedGraph.get(tags.get(0),tags.get(0)).incrementAndGet();
+            if(weightedGraph.contains(tags.get(0), tags.get(0))){
+                weightedGraph.get(tags.get(0), tags.get(0)).incrementAndGet();
+            }else{
+                weightedGraph.put(tags.get(0), tags.get(0),new AtomicLong(1L));
+            }
         }
     }
     public static Set<Post> getPostsWithTag(String tag) {

@@ -66,6 +66,7 @@ public class LoadFile {
 
                     dataSource.loadEntry(postBuilder.createPost());
                 }catch (Exception e){
+                    e.printStackTrace();
                     LOG.info("Exception Caught "+e.toString());
                 }
             }
